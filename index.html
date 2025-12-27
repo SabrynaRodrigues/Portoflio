@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sabryna Rodrigues | Data Analyst</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Tema Escuro (Padrão) */
+      --black: #000000;
+      --dark: #0a0a0a;
+      --gray: #1a1a1a;
+      --light-gray: #2a2a2a;
+      --white: #ffffff;
+      --off-white: #e0e0e0;
+      --accent: #909090;
+      --glass: rgba(255, 255, 255, 0.02);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      /* Variáveis para alternância de tema */
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --text-primary: #ffffff;
+      --text-secondary: #e0e0e0;
+      --text-accent: #909090;
+      --card-bg: rgba(255, 255, 255, 0.02);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --grid-color: rgba(255, 255, 255, 0.015);
+    }
+
+    /* Tema Claro */
+    body.light-theme {
+      --black: #ffffff;
+      --dark: #f5f5f5;
+      --gray: #e0e0e0;
+      --light-gray: #d0d0d0;
+      --white: #000000;
+      --off-white: #333333;
+      --accent: #666666;
+      --glass: rgba(0, 0, 0, 0.03);
+      --glass-border: rgba(0, 0, 0, 0.1);
+      
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f5f5;
+      --text-primary: #000000;
+      --text-secondary: #333333;
+      --text-accent: #666666;
+      --card-bg: rgba(0, 0, 0, 0.03);
+      --card-border: rgba(0, 0, 0, 0.1);
+      --grid-color: rgba(0, 0, 0, 0.02);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      transition: var(--transition);
+    }
+
+    /* Grid lines background */
+    .grid-lines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(var(--grid-color) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: -2;
+      pointer-events: none;
+      opacity: 0.2;
+      transition: var(--transition);
+    }
+
+    /* Floating lights effect */
+    .floating-lights {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .light {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 50%;
+      filter: blur(1px);
+      box-shadow: 
+        0 0 15px 2px rgba(255, 255, 255, 0.6),
+        0 0 30px 4px rgba(255, 255, 255, 0.3);
+      animation: floatLight 20s infinite linear;
+    }
+
+    body.light-theme .light {
+      box-shadow: 
+        0 0 15px 2px rgba(0, 0, 0, 0.2),
+        0 0 30px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes floatLight {
+      0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0.3;
+      }
+      25% {
+        transform: translate(150px, 80px) rotate(90deg) scale(1.2);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translate(80px, 150px) rotate(180deg) scale(1);
+        opacity: 0.4;
+      }
+      75% {
+        transform: translate(-80px, 80px) rotate(270deg) scale(1.3);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translate(0, 0) rotate(360deg) scale(1);
+        opacity: 0.3;
+      }
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.8rem 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(15px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--glass-border);
+      transition: var(--transition);
+    }
+
+    body.light-theme header {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .header-scrolled {
+      padding: 1.2rem 0;
+      background: rgba(0, 0, 0, 0.95);
+    }
+
+    body.light-theme .header-scrolled {
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      padding: 0.5rem 0;
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--text-primary);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .logo:hover::before {
+      transform: translateX(0);
+    }
+
+    /* Botão de alternância de tema */
+    .theme-toggle {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      background: var(--gray);
+      border-radius: 13px;
+      border: none;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: 2rem;
+      transition: var(--transition);
+    }
+
+    .theme-toggle::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: var(--white);
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+
+    body.light-theme .theme-toggle::before {
+      transform: translateX(24px);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 3rem;
+    }
+
+    nav a {
+      color: var(--text-accent);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: var(--transition);
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    nav a::before {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      overflow: hidden;
+      color: var(--text-primary);
+      transition: width 0.4s ease;
+      white-space: nowrap;
+    }
+
+    nav a:hover::before {
+      width: 100%;
+    }
+
+    nav a.active {
+      color: var(--text-primary);
+    }
+
+    /* Main container for sections */
+    .main-container {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .main-container.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* HOME SECTION - LAYOUT CENTRALIZADO E MAIS PARA BAIXO */
+    .home-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 0 4rem; /* Aumentei o padding superior para descer o conteúdo */
+    }
+
+    .home-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 8rem; /* Mais espaço entre título e tecnologias */
+    }
+
+    /* Conteúdo central - MAIS PARA BAIXO */
+    .home-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 1;
+      margin: 0 auto;
+      padding: 6rem 0; /* Aumentei o padding para descer mais */
+      transform: translateY(40px); /* Desce o conteúdo */
+    }
+
+    .home-title {
+      font-size: 4rem;
+      font-weight: 300;
+      margin-bottom: 2.5rem; /* Aumentei o espaço abaixo do título */
+      color: var(--text-primary);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      position: relative;
+    }
+
+    .home-title::after {
+      content: '';
+      position: absolute;
+      bottom: -25px; /* Linha mais abaixo */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px; /* Linha mais longa */
+      height: 1px;
+      background: var(--text-accent);
+      opacity: 0.5;
+    }
+
+    .home-title span {
+      display: block;
+      font-size: 1.4rem;
+      color: var(--text-accent);
+      margin-top: 3rem; /* Mais espaço acima do nome */
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .home-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-accent);
+      margin: 5rem auto 3rem; /* Mais espaço acima e abaixo */
+      font-weight: 300;
+      max-width: 500px;
+      line-height: 1.8;
+      opacity: 0.8;
+    }
+
+    /* Tech Grid - MAIS ABAIXO e com mais espaçamento */
+    .tech-section {
+      width: 100%;
+      max-width: 1000px;
+      margin: 4rem auto 0; /* Margem superior aumentada */
+      padding-top: 4rem; /* Padding superior aumentado */
+      border-top: 1px solid var(--glass-border); /* Linha divisória sutil */
+      transform: translateY(20px); /* Desce um pouco mais */
+    }
+
+    .tech-section-title {
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 3.5rem; /* Mais espaço abaixo do título */
+      color: var(--text-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      opacity: 0.7;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      position: relative;
+    }
+
+    .tech-grid::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 0;
+      background: linear-gradient(to bottom, transparent, var(--text-primary), transparent);
+      animation: lineGrow 1.5s ease forwards;
+      animation-delay: 1.2s; /* Delay maior para aparecer depois do título */
+    }
+
+    @keyframes lineGrow {
+      to { height: 100%; }
+    }
+
+    .tech-item {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: var(--card-bg);
+      border: 1px solid transparent;
+      border-radius: 12px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .tech-item:nth-child(1) { animation-delay: 1.4s; }
+    .tech-item:nth-child(2) { animation-delay: 1.5s; }
+    .tech-item:nth-child(3) { animation-delay: 1.6s; }
+    .tech-item:nth-child(4) { animation-delay: 1.7s; }
+    .tech-item:nth-child(5) { animation-delay: 1.8s; }
+    .tech-item:nth-child(6) { animation-delay: 1.9s; }
+    .tech-item:nth-child(7) { animation-delay: 2.0s; }
+    .tech-item:nth-child(8) { animation-delay: 2.1s; }
+
+    @keyframes fadeUp {
+      to { 
+        opacity: 1; 
+        transform: translateY(0);
+      }
+    }
+
+    .tech-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: var(--transition);
+    }
+
+    body.light-theme .tech-item::before {
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+    }
+
+    .tech-item:hover::before {
+      left: 100%;
+    }
+
+    .tech-item:hover {
+      border-color: var(--text-primary);
+      transform: translateY(-10px);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    body.light-theme .tech-item:hover {
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.1);
+    }
+
+    .tech-item img {
+      height: 35px;
+      margin-bottom: 1.2rem;
+      filter: grayscale(100%) brightness(150%);
+      transition: var(--transition);
+    }
+
+    body.light-theme .tech-item img {
+      filter: grayscale(100%) brightness(80%);
+    }
+
+    .tech-item:hover img {
+      filter: grayscale(0%) brightness(100%);
+      transform: scale(1.15);
+    }
+
+    .tech-name {
+      font-size: 0.75rem;
+      color: var(--text-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      transition: var(--transition);
+    }
+
+    .tech-item:hover .tech-name {
+      color: var(--text-primary);
+    }
+
+    /* CTA buttons */
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 4rem; /* Mais espaço acima dos botões */
+    }
+
+    .cta-button {
+      padding: 1.1rem 2.5rem;
+      background: transparent;
+      border: 1px solid var(--light-gray);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: var(--text-primary);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+      z-index: -1;
+    }
+
+    .cta-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .cta-button:hover {
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
+
+    /* PORTFOLIO SECTION */
+    .portfolio-section {
+      min-height: 100vh;
+      padding: 10rem 0 4rem;
+    }
+
+    .section-title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      margin-bottom: 4rem;
+      color: var(--text-primary);
+      position: relative;
+      display: inline-block;
+      letter-spacing: -0.02em;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 0;
+      width: 80px;
+      height: 1px;
+      background: var(--text-primary);
+      animation: lineExpand 1s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    @keyframes lineExpand {
+      from { width: 0; }
+      to { width: 80px; }
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 3rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: cardAppear 0.8s ease forwards;
+    }
+
+    .project-card:nth-child(1) { animation-delay: 0.4s; }
+    .project-card:nth-child(2) { animation-delay: 0.5s; }
+    .project-card:nth-child(3) { animation-delay: 0.6s; }
+    .project-card:nth-child(4) { animation-delay: 0.7s; }
+    .project-card:nth-child(5) { animation-delay: 0.8s; }
+    .project-card:nth-child(6) { animation-delay: 0.9s; }
+    .project-card:nth-child(7) { animation-delay: 1.0s; }
+
+    @keyframes cardAppear {
+      to { 
+        opacity: 1; 
+        transform: translateY(0);
+      }
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+      transform: translateX(-100%) rotate(45deg);
+      transition: transform 0.8s ease;
+    }
+
+    body.light-theme .project-card::before {
+      background: linear-gradient(45deg, transparent, rgba(0, 0, 0, 0.03), transparent);
+    }
+
+    .project-card:hover::before {
+      transform: translateX(100%) rotate(45deg);
+    }
+
+    .project-card:hover {
+      border-color: var(--text-primary);
+      transform: translateY(-10px);
+      box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    body.light-theme .project-card:hover {
+      box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-container {
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      background: var(--bg-secondary);
+      position: relative;
+    }
+
+    .video-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.9));
+      pointer-events: none;
+    }
+
+    body.light-theme .video-container::after {
+      background: linear-gradient(to bottom, transparent 60%, rgba(255, 255, 255, 0.9));
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .project-card:hover .video-container video {
+      transform: scale(1.1);
+    }
+
+    /* CONTAINER PARA IMAGENS - ADICIONADO */
+    .image-container {
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      background: var(--bg-secondary);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.9));
+      pointer-events: none;
+    }
+
+    body.light-theme .image-container::after {
+      background: linear-gradient(to bottom, transparent 60%, rgba(255, 255, 255, 0.9));
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .project-card:hover .image-container img {
+      transform: scale(1.1);
+    }
+
+    /* GARANTIR QUE TODOS OS CONTAINERS TENHAM O MESMO TAMANHO */
+    .video-container, .image-container {
+      height: 250px;
+      background: var(--bg-secondary);
+    }
+
+    .project-info {
+      padding: 2rem;
+      position: relative;
+    }
+
+    /* REMOVER SUBLINHADO DOS LINKS DOS CARDS */
+    .project-link {
+      text-decoration: none !important;
+      color: inherit;
+      display: block;
+    }
+
+    .project-link:hover {
+      text-decoration: none !important;
+    }
+
+    .project-title {
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      letter-spacing: 0.05em;
+    }
+
+    .project-desc {
+      font-size: 0.95rem;
+      color: var(--text-accent);
+      line-height: 1.7;
+      transition: var(--transition);
+    }
+
+    .project-card:hover .project-desc {
+      color: var(--text-secondary);
+    }
+
+    /* RESUME SECTION */
+    .resume-section {
+      min-height: 100vh;
+      padding: 10rem 0 4rem;
+    }
+
+    .resume-layout {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 5rem;
+    }
+
+    .experience-section {
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slideIn 0.8s ease forwards;
+      animation-delay: 0.4s;
+    }
+
+    @keyframes slideIn {
+      to { 
+        opacity: 1; 
+        transform: translateX(0);
+      }
+    }
+
+    .experience-item {
+      margin-bottom: 4rem;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid var(--card-border);
+      position: relative;
+      padding-left: 3rem;
+      transition: var(--transition);
+    }
+
+    .experience-item:hover {
+      border-color: var(--text-primary);
+    }
+
+    .experience-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 12px;
+      height: 12px;
+      background: var(--text-primary);
+      border-radius: 50%;
+      transition: var(--transition);
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+      animation: pulseDot 2s infinite;
+    }
+
+    body.light-theme .experience-item::before {
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+      }
+      70% { 
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+      }
+    }
+
+    body.light-theme .experience-item::before {
+      animation: pulseDotLight 2s infinite;
+    }
+
+    @keyframes pulseDotLight {
+      0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+      }
+      70% { 
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+      }
+    }
+
+    .experience-item:hover::before {
+      transform: scale(1.5);
+    }
+
+    .experience-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .experience-title {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      letter-spacing: 0.05em;
+    }
+
+    .experience-company {
+      color: var(--text-accent);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .experience-item:hover .experience-company {
+      color: var(--text-primary);
+    }
+
+    .experience-date {
+      font-size: 0.9rem;
+      color: var(--light-gray);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .experience-desc {
+      color: var(--text-accent);
+      font-size: 1rem;
+      line-height: 1.8;
+      transition: var(--transition);
+    }
+
+    .experience-item:hover .experience-desc {
+      color: var(--text-secondary);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      opacity: 0;
+      transform: translateX(20px);
+      animation: slideInRight 0.8s ease forwards;
+      animation-delay: 0.6s;
+    }
+
+    @keyframes slideInRight {
+      to { 
+        opacity: 1; 
+        transform: translateX(0);
+      }
+    }
+
+    .sidebar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 2.5rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--text-primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s ease;
+    }
+
+    .sidebar-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .sidebar-card:hover {
+      border-color: var(--text-primary);
+      transform: translateY(-5px);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    body.light-theme .sidebar-card:hover {
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      color: var(--text-primary);
+      position: relative;
+      padding-bottom: 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 1px;
+      background: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    .sidebar-card:hover .card-title::after {
+      width: 60px;
+    }
+
+    .contact-item {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      color: var(--text-accent);
+      transition: var(--transition);
+    }
+
+    .sidebar-card:hover .contact-item {
+      color: var(--text-secondary);
+    }
+
+    .contact-item a {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .contact-item a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    .contact-item a:hover::after {
+      width: 100%;
+    }
+
+    .skill-item {
+      margin-bottom: 2rem;
+    }
+
+    .skill-name {
+      display: block;
+      margin-bottom: 0.8rem;
+      color: var(--text-accent);
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      transition: var(--transition);
+    }
+
+    .sidebar-card:hover .skill-name {
+      color: var(--text-secondary);
+    }
+
+    .skill-bar {
+      height: 2px;
+      background: var(--light-gray);
+      border-radius: 1px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .skill-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 1s ease;
+    }
+
+    body.light-theme .skill-bar::after {
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+    }
+
+    .sidebar-card:hover .skill-bar::after {
+      transform: translateX(100%);
+    }
+
+    .skill-level {
+      height: 100%;
+      background: var(--text-primary);
+      transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Footer */
+    footer {
+      padding: 4rem 0;
+      text-align: center;
+      border-top: 1px solid var(--card-border);
+      background: var(--bg-secondary);
+      margin-top: 4rem;
+      transition: var(--transition);
+    }
+
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 2.5rem 0;
+    }
+
+    .footer-link {
+      color: var(--text-accent);
+      text-decoration: none;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .footer-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    .footer-link:hover::after {
+      width: 100%;
+    }
+
+    .copyright {
+      font-size: 0.8rem;
+      color: var(--light-gray);
+      letter-spacing: 0.1em;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .tech-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .resume-layout {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+      }
+      
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .home-title {
+        font-size: 3.5rem;
+      }
+      
+      .section-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1.5rem;
+      }
+
+      .nav-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .theme-toggle {
+        order: 3;
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      nav {
+        width: 100%;
+        order: 2;
+      }
+
+      nav ul {
+        justify-content: center;
+        gap: 2rem;
+      }
+
+      .home-title {
+        font-size: 3rem;
+      }
+
+      .home-title span {
+        font-size: 1.2rem;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+      }
+
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .cta-button {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .home-wrapper {
+        gap: 6rem; /* Ajuste para mobile */
+      }
+      
+      .tech-grid {
+        gap: 1rem;
+      }
+      
+      .tech-item {
+        padding: 1.5rem 1rem;
+      }
+      
+      .home-content {
+        padding: 4rem 0; /* Ajuste para mobile */
+        transform: translateY(20px); /* Ajuste para mobile */
+      }
+      
+      .home-subtitle {
+        margin: 3rem auto 2rem;
+      }
+      
+      .tech-section {
+        margin: 2rem auto 0; /* Ajuste para mobile */
+        padding-top: 3rem; /* Ajuste para mobile */
+        transform: translateY(0); /* Ajuste para mobile */
+      }
+      
+      .video-container,
+      .image-container {
+        height: 220px; /* Ajuste para mobile */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .home-title {
+        font-size: 2.5rem;
+      }
+
+      .home-title span {
+        font-size: 1rem;
+      }
+
+      .home-subtitle {
+        font-size: 1rem;
+        padding: 0 1rem;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .tech-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .experience-item {
+        padding-left: 2rem;
+      }
+      
+      .home-wrapper {
+        gap: 4rem; /* Ajuste para mobile pequeno */
+      }
+      
+      .cta-button {
+        padding: 1rem 2rem;
+      }
+      
+      .portfolio-grid {
+        gap: 2rem;
+      }
+      
+      .project-card {
+        margin-bottom: 1rem;
+      }
+      
+      .tech-section {
+        padding-top: 2rem;
+      }
+      
+      .home-section {
+        padding: 6rem 0 4rem; /* Ajuste para mobile pequeno */
+      }
+      
+      .home-content {
+        padding: 3rem 0; /* Ajuste para mobile pequeno */
+      }
+      
+      .video-container,
+      .image-container {
+        height: 200px; /* Ajuste para mobile pequeno */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Grid lines background -->
+  <div class="grid-lines"></div>
+  
+  <!-- Floating lights -->
+  <div class="floating-lights" id="floatingLights"></div>
+
+  <!-- Header -->
+  <header id="header">
+    <div class="container">
+      <div class="nav-container">
+        <a href="#" class="logo" onclick="showSection('home')">SABRYNA</a>
+        
+        <!-- Botão de alternância de tema -->
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema claro/escuro"></button>
+        
+        <nav>
+          <ul>
+            <li><a href="#" class="active" data-text="HOME" onclick="showSection('home')">HOME</a></li>
+            <li><a href="#" data-text="PORTFOLIO" onclick="showSection('portfolio')">PORTFOLIO</a></li>
+            <li><a href="#" data-text="RESUME" onclick="showSection('resume')">RESUME</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content area -->
+  <main id="main-content">
+    <!-- HOME SECTION - LAYOUT CENTRALIZADO E MAIS PARA BAIXO -->
+    <div id="home-container" class="main-container active">
+      <section class="home-section">
+        <div class="container">
+          <div class="home-wrapper">
+            <!-- Conteúdo central - MAIS PARA BAIXO -->
+            <div class="home-content">
+              <h1 class="home-title">
+                Data Analyst
+                <span>Sabryna Rodrigues</span>
+              </h1>
+              
+              <p class="home-subtitle">
+                Transforming complex data into clear, actionable insights through advanced analytics and elegant visualization.
+              </p>
+              
+              <div class="cta-buttons">
+                <a href="#" class="cta-button" onclick="showSection('portfolio')">View Projects</a>
+                <a href="#" class="cta-button" onclick="showSection('resume')">View Resume</a>
+              </div>
+            </div>
+            
+            <!-- Technologies Grid - MAIS PARA BAIXO -->
+            <div class="tech-section">
+              <h3 class="tech-section-title">Technologies & Platforms</h3>
+              <div class="tech-grid">
+                <div class="tech-item">
+                  <img src="https://logosmarcas.net/wp-content/uploads/2022/02/Power-BI-Emblema.png" alt="Power BI">
+                  <div class="tech-name">Power BI</div>
+                </div>
+                <div class="tech-item">
+                  <img src="https://cdn.worldvectorlogo.com/logos/tableau-software.svg" alt="Tableau">
+                  <div class="tech-name">Tableau</div>
+                </div>
+                <div class="tech-item">
+                  <img src="https://seeklogo.com/images/G/google-looker-logo-B27BD25E4E-seeklogo.com.png" alt="Looker Studio">
+                  <div class="tech-name">Looker Studio</div>
+                </div>
+                <div class="tech-item">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python">
+                  <div class="tech-name">Python</div>
+                </div>
+                <div class="tech-item">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg" alt="R">
+                  <div class="tech-name">R</div>
+                </div>
+                <div class="tech-item">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" alt="Google Cloud">
+                  <div class="tech-name">Google Cloud</div>
+                </div>
+                <div class="tech-item">
+                  <img src="https://tse2.mm.bing.net/th/id/OIP.0lvZHATFvtubhMq3efGU7AHaEI?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Databricks">
+                  <div class="tech-name">Databricks</div>
+                </div>
+                <div class="tech-item">
+                  <img src="https://logos-world.net/wp-content/uploads/2021/03/Azure-Logo-2020-present.png" alt="Azure">
+                  <div class="tech-name">Azure</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+        <!-- PORTFOLIO SECTION -->
+        <div id="portfolio-container" class="main-container" style="display: none;">
+          <section class="portfolio-section">
+            <div class="container">
+              <h2 class="section-title">Portfolio</h2>
+              <div class="portfolio-grid">
+                
+                <!-- Projeto 1: Heat Island Analytics -->
+                <div class="project-card">
+                  <a href="https://www.youtube.com/watch?v=q6EO_D-arVw" target="_blank" class="project-link">
+                    <div class="video-container">
+                      <video autoplay loop muted playsinline>
+                        <source src="Vídeo sem título ‐ Feito com o Clipchamp (15).mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <div class="project-info">
+                      <h3 class="project-title">Heat Island Analytics</h3>
+                      <p class="project-desc">Advanced Power BI dashboard with sophisticated DAX calculations, interactive visuals, and dynamic KPI cards for urban heat analysis.</p>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- Projeto 2: Climate Change Analysis -->
+                <div class="project-card">
+                  <a href="https://public.tableau.com/app/profile/sabryna.dos.santos/viz/ClimateChange_Tableau/Dashboard" target="_blank" class="project-link">
+                    <div class="video-container">
+                      <video autoplay loop muted playsinline>
+                        <source src="Climate.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <div class="project-info">
+                      <h3 class="project-title">Climate Change Analysis</h3>
+                      <p class="project-desc">Statistical analysis and predictive modeling of climate data trends using Python and R for environmental insights.</p>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- Projeto 3: Survival Analytics -->
+                <div class="project-card">
+                  <a href="https://sabrynarodriguesexploratory.my.canva.site/" target="_blank" class="project-link">
+                    <div class="video-container">
+                      <video autoplay loop muted playsinline>
+                        <source src="titanic.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <div class="project-info">
+                      <h3 class="project-title">Survival Analytics</h3>
+                      <p class="project-desc">Exploratory data analysis and predictive modeling of passenger survival patterns using machine learning algorithms.</p>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- NOVO: Income Statement Dashboard -->
+                <div class="project-card">
+                  <a href="https://www.canva.com/design/DAG3l71q0DY/16y-hx5ae4ff-aKKlq-zWw/watch?utm_content=DAG3l71q0DY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h7de136d40c" target="_blank" class="project-link">
+                    <div class="video-container">
+                      <video autoplay loop muted playsinline>
+                        <source src="income.mp4" type="video/mp4">
+                      </video>
+                    </div>
+                    <div class="project-info">
+                      <h3 class="project-title">Income Statement Dashboard</h3>
+                      <p class="project-desc">Financial analytics dashboard for income statement visualization, trend analysis, and financial performance metrics tracking.</p>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- NOVO: Hypothesis Testing for Website Design -->
+                <div class="project-card">
+                  <a href="https://github.com/SabrynaRodrigues/ComparingMeans_Hypothesis" target="_blank" class="project-link">
+                    <div class="image-container">
+                      <img src="hypo.jpg" alt="Hypothesis Testing for Website Design">
+                    </div>
+                    <div class="project-info">
+                      <h3 class="project-title">Hypothesis Testing for Website Design</h3>
+                      <p class="project-desc">A/B test analysis comparing website design performance using statistical hypothesis testing methods and data visualization.</p>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- NOVO: Hypothesis Test for Music Recommendation -->
+                <div class="project-card">
+                  <a href="https://github.com/SabrynaRodrigues/Hypothesis_Testing" target="_blank" class="project-link">
+                    <div class="image-container">
+                      <img src="image 234.png" alt="Music Recommendation Hypothesis Testing">
+                    </div>
+                    <div class="project-info">
+                      <h3 class="project-title">Music Recommendation A/B Testing</h3>
+                      <p class="project-desc">Statistical analysis of new music recommendation algorithms using hypothesis testing to measure user engagement improvements.</p>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- NOVO: Churn Analysis Dashboard (Último como solicitado) -->
+                <div class="project-card">
+                  <a href="https://medium.com/@sabrynadatagirl/exploratory-data-analysis-in-python-for-the-retail-sector-6941877a79be" target="_blank" class="project-link">
+                    <div class="image-container">
+                      <img src="last.webp" alt="EDA">
+                    </div>
+                    <div class="project-info">
+                      <h3 class="project-title">Exploratory Data Analysis in Python for the Retail Sector</h3>
+                      <p class="project-desc">Explore how Python transforms retail data into actionable insights. From sales trends to customer segments, learn practical EDA techniques that drive strategy.</p>
+                    </div>
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          </section>
+        </div>
+    <!-- RESUME SECTION -->
+    <div id="resume-container" class="main-container" style="display: none;">
+      <section class="resume-section">
+        <div class="container">
+          <h2 class="section-title">Resume</h2>
+          
+            <div class="resume-layout">
+              <div class="experience-section">
+                <div class="experience-item">
+                  <h3 class="experience-title">Business Intelligence Analyst</h3>
+                  <p class="experience-company">MATH — São Paulo, Brazil</p>
+                  <p class="experience-date">October 2024 – Present</p>
+                  <p class="experience-desc">
+                    Lead data-driven analyses to support executive decision-making and financial strategy.
+                    Design and maintain dashboards and financial reports that enhance business visibility and operational efficiency.
+                    Utilize Google BigQuery and Power BI to streamline data transformation and visualization processes.
+                  </p>
+                </div>
+                <div class="experience-item">
+                  <h3 class="experience-title">Data Assistant</h3>
+                  <p class="experience-company">Vertem — São Paulo, Brazil</p>
+                  <p class="experience-date">February 2024 – October 2024</p>
+                  <p class="experience-desc">
+                    Conducted advanced segmentation and pattern analysis to identify business opportunities and improve strategic planning.
+                    Designed intuitive dashboards that optimized KPI monitoring and decision-making processes.
+                    Collaborated cross-functionally to align data visualization with business objectives.
+                  </p>
+                </div>  
+                <div class="experience-item">
+                  <h3 class="experience-title">Data Intern</h3>
+                  <p class="experience-company">Vertem — São Paulo, Brazil</p>
+                  <p class="experience-date">January 2023 – February 2024</p>
+                  <p class="experience-desc">
+                    Supported data engineering initiatives using Databricks, Azure Data Factory, and SQL to ensure efficient data workflows.
+                    Built interactive Power BI dashboards and assisted in database structuring and data governance.
+                    Proactively developed internal projects to enhance client monitoring and care, improving customer experience and operational performance.
+                  </p>
+                </div>
+              </div>              
+            
+            <div class="sidebar">
+              <div class="sidebar-card">
+                <h3 class="card-title">Contact</h3>
+                <div class="contact-item">
+                  <a href="mailto:sabrynarodrigues1804@gmail.com">sabrynarodrigues1804@gmail.com</a>
+                </div>
+              </div>
+              
+              <div class="sidebar-card">
+                <h3 class="card-title">Skills</h3>
+                <div class="skill-item">
+                  <span class="skill-name">Power BI</span>
+                  <div class="skill-bar"><div class="skill-level" style="width: 90%;"></div></div>
+                </div>
+                <div class="skill-item">
+                  <span class="skill-name">SQL</span>
+                  <div class="skill-bar"><div class="skill-level" style="width: 85%;"></div></div>
+                </div>
+                <div class="skill-item">
+                  <span class="skill-name">Python</span>
+                  <div class="skill-bar"><div class="skill-level" style="width: 75%;"></div></div>
+                </div>
+                <div class="skill-item">
+                  <span class="skill-name">Databricks</span>
+                  <div class="skill-bar"><div class="skill-level" style="width: 80%;"></div></div>
+                </div>
+              </div>
+              
+              <div class="sidebar-card">
+                <h3 class="card-title">Languages</h3>
+                <div class="contact-item">Portuguese (Native)</div>
+                <div class="contact-item">English (Advanced)</div>
+                <div class="contact-item">Spanish (Intermediate)</div>
+                <div class="contact-item">French (Basic)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>Sabryna Rodrigues</p>
+        <div class="footer-links">
+          <a href="#" class="footer-link" onclick="showSection('home')">Home</a>
+          <a href="#" class="footer-link" onclick="showSection('portfolio')">Portfolio</a>
+          <a href="#" class="footer-link" onclick="showSection('resume')">Resume</a>
+          <a href="mailto:sabrynarodrigues1804@gmail.com" class="footer-link">Contact</a>
+        </div>
+        <p class="copyright">© 2023 Sabryna Rodrigues</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Create floating lights with enhanced floating effect
+    function createFloatingLights() {
+      const container = document.getElementById('floatingLights');
+      const lightCount = 60;
+      
+      for (let i = 0; i < lightCount; i++) {
+        const light = document.createElement('div');
+        light.className = 'light';
+        
+        // Random position
+        light.style.left = `${Math.random() * 100}%`;
+        light.style.top = `${Math.random() * 100}%`;
+        
+        // Random size and opacity
+        const size = Math.random() * 3 + 1;
+        light.style.width = `${size}px`;
+        light.style.height = `${size}px`;
+        light.style.opacity = Math.random() * 0.5 + 0.1;
+        
+        // Random animation properties
+        const duration = Math.random() * 25 + 15; // 15-40 seconds
+        const delay = Math.random() * 5;
+        
+        // Custom keyframes for each light
+        const keyframes = `
+          @keyframes floatLight-${i} {
+            0% {
+              transform: translate(0, 0) rotate(0deg) scale(1);
+              opacity: ${Math.random() * 0.3 + 0.1};
+            }
+            25% {
+              transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 100 - 50}px) rotate(90deg) scale(${Math.random() * 0.3 + 1});
+              opacity: ${Math.random() * 0.4 + 0.3};
+            }
+            50% {
+              transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 200 - 100}px) rotate(180deg) scale(1);
+              opacity: ${Math.random() * 0.3 + 0.2};
+            }
+            75% {
+              transform: translate(${Math.random() * -100 + 50}px, ${Math.random() * 100 - 50}px) rotate(270deg) scale(${Math.random() * 0.3 + 1.1});
+              opacity: ${Math.random() * 0.5 + 0.2};
+            }
+            100% {
+              transform: translate(0, 0) rotate(360deg) scale(1);
+              opacity: ${Math.random() * 0.3 + 0.1};
+            }
+          }
+        `;
+        
+        // Create style element for custom keyframes
+        const style = document.createElement('style');
+        style.textContent = keyframes;
+        document.head.appendChild(style);
+        
+        // Apply custom animation
+        light.style.animation = `floatLight-${i} ${duration}s infinite linear`;
+        light.style.animationDelay = `${delay}s`;
+        
+        container.appendChild(light);
+      }
+    }
+    
+    // Alternância de tema claro/escuro
+    function toggleTheme() {
+      const body = document.body;
+      const themeToggle = document.getElementById('themeToggle');
+      
+      body.classList.toggle('light-theme');
+      
+      // Salvar preferência no localStorage
+      const isLightTheme = body.classList.contains('light-theme');
+      localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
+      
+      // Atualizar animações para o novo tema
+      if (isLightTheme) {
+        themeToggle.setAttribute('aria-label', 'Alternar para tema escuro');
+      } else {
+        themeToggle.setAttribute('aria-label', 'Alternar para tema claro');
+      }
+    }
+    
+    // Carregar tema salvo
+    function loadTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      const themeToggle = document.getElementById('themeToggle');
+      
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        themeToggle.setAttribute('aria-label', 'Alternar para tema escuro');
+      } else {
+        themeToggle.setAttribute('aria-label', 'Alternar para tema claro');
+      }
+    }
+    
+    // Section switching
+    function showSection(section) {
+      // Update active nav link
+      document.querySelectorAll('nav a').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      const activeLink = document.querySelector(`nav a[onclick="showSection('${section}')"]`);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+      
+      // Hide all sections with fade out effect
+      const containers = document.querySelectorAll('.main-container');
+      containers.forEach(container => {
+        if (container.classList.contains('active')) {
+          container.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          container.style.opacity = '0';
+          container.style.transform = 'translateY(20px)';
+          
+          setTimeout(() => {
+            container.style.display = 'none';
+            container.classList.remove('active');
+          }, 300);
+        }
+      });
+      
+      // Show selected section with fade in effect
+      setTimeout(() => {
+        const targetContainer = document.getElementById(`${section}-container`);
+        if (targetContainer) {
+          targetContainer.style.display = 'block';
+          
+          // Force reflow
+          targetContainer.offsetHeight;
+          
+          targetContainer.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          targetContainer.style.opacity = '0';
+          targetContainer.style.transform = 'translateY(20px)';
+          
+          setTimeout(() => {
+            targetContainer.classList.add('active');
+            targetContainer.style.opacity = '1';
+            targetContainer.style.transform = 'translateY(0)';
+          }, 50);
+          
+          // Scroll to top
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          // Handle video playback
+          if (section === 'portfolio') {
+            setTimeout(playAllVideos, 600);
+          } else {
+            pauseAllVideos();
+          }
+          
+          // Animate skill bars when resume section is shown
+          if (section === 'resume') {
+            setTimeout(animateSkillBars, 800);
+          }
+        }
+      }, 350);
+    }
+    
+    // Video controls
+    function playAllVideos() {
+      document.querySelectorAll('video').forEach(video => {
+        try {
+          video.muted = true;
+          video.playsInline = true;
+          video.currentTime = 0;
+          video.play().catch(e => {
+            // Fallback para restrições de autoplay
+            video.setAttribute('controls', '');
+            console.log('Autoplay prevented for video:', e);
+          });
+        } catch (error) {
+          console.log('Error playing video:', error);
+        }
+      });
+    }
+    
+    function pauseAllVideos() {
+      document.querySelectorAll('video').forEach(video => {
+        video.pause();
+        video.removeAttribute('controls');
+      });
+    }
+    
+    // Header scroll effect
+    function handleHeaderScroll() {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('header-scrolled');
+      } else {
+        header.classList.remove('header-scrolled');
+      }
+    }
+    
+    // Animate skill bars on resume section
+    function animateSkillBars() {
+      const skillBars = document.querySelectorAll('.skill-level');
+      skillBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => {
+          bar.style.width = width;
+        }, 500);
+      });
+    }
+    
+    // Animate tech items on home section
+    function animateTechItems() {
+      const techItems = document.querySelectorAll('.tech-item');
+      techItems.forEach((item, index) => {
+        item.style.animationDelay = `${1.4 + index * 0.1}s`;
+      });
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      createFloatingLights();
+      loadTheme();
+      
+      // Configurar botão de alternância de tema
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle.addEventListener('click', toggleTheme);
+      
+      // Header scroll effect
+      window.addEventListener('scroll', handleHeaderScroll);
+      handleHeaderScroll();
+      
+      // Animate home elements
+      animateTechItems();
+      
+      // Play videos on home load
+      setTimeout(playAllVideos, 1000);
+    });
+  </script>
+</body>
+</html>
